@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 3 — Phrasebook Selection</title>
+<link rel="stylesheet" href="select.css">
+</head>
+<body>
+<header>
+  <h1>Phrasebook entry selection</h1>
+  <p class="sub">Step 1 &middot; listen, pick and categorise ~30&ndash;50 tourism-relevant entries from the Puno Quechua spontaneous-speech corpus.</p>
+  <p id="loadError" class="note" hidden></p>
+</header>
+
+<section id="controls">
+  <input id="search" type="search" placeholder="Search text…" autocomplete="off">
+  <select id="validationFilter" aria-label="Validation">
+    <option value="validated">Validated</option>
+    <option value="not_validated">Not validated</option>
+    <option value="">All clips</option>
+  </select>
+  <select id="categoryFilter" aria-label="Category"></select>
+  <label><input type="checkbox" id="selectedOnly"> Selected only</label>
+  <span id="counts"></span>
+</section>
+
+<section id="selectedPanel">
+  <h2>Selected (<span id="selectedCount">0</span>)</h2>
+  <p id="categoryTally" class="tally"></p>
+  <ol id="selectedList"></ol>
+  <p id="exportHint" class="tally"></p>
+  <button id="exportBtn" disabled>Save candidates.json</button>
+  <button id="importBtn" type="button">Load candidates.json…</button>
+  <input id="importFile" type="file" accept="application/json,.json" hidden>
+  <span class="tally">Your picks are also remembered in this browser.</span>
+</section>
+
+<section id="browsePanel">
+  <table id="corpusTable">
+    <thead>
+      <tr><th></th><th>Audio</th><th>Text</th><th>Status</th><th>Category</th></tr>
+    </thead>
+    <tbody id="corpusBody"></tbody>
+  </table>
+  <p id="loadMoreWrap"><button id="loadMoreBtn">Show 100 more</button></p>
+</section>
+
+<script src="config.js"></script>
+<script src="select.js"></script>
+</body>
+</html>
