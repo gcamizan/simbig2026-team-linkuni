@@ -1,0 +1,34 @@
+# Deploys the Task 3 site (task3/public) to Cloudflare Workers when main changes.
+# Needs two repository secrets (Settings > Secrets and variables > Actions):
+#   CLOUDFLARE_API_TOKEN   token with the "Edit Cloudflare Workers" permission
+#   CLOUDFLARE_ACCOUNT_ID  the Cloudflare account id
+# Actions only read workflows from the repo root, so the app folder is set with workingDirectory.
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "task3/public/**"
+      - "task3/wrangler.toml"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy with Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: task3
+          command: deploy
