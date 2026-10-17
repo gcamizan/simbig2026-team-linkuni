@@ -1,0 +1,4 @@
+# Needed only for the self-hosted NLLB backend (TRANSLATE_BACKEND=local).
+torch>=2.3
+transformers>=4.44,<6
+sentencepiece>=0.2

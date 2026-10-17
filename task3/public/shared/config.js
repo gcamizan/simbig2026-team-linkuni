@@ -26,8 +26,8 @@ window.TASK3_CONFIG = {
   //   POST {text, src_lang, tgt_lang} -> {translation}
   TRANSLATE_BASE_URL: "https://TRANSLATE-HOST-PLACEHOLDER",
   TRANSLATE_PATH: "/translate",
-  // TODO(FLORES): unresolved. Candidates: quy_Latn (Southern Quechua), quz_Latn (Ayacucho), a Cusco
-  // variant. Check which variant Task 1 uses against the NLLB-200 distilled-600M language list.
+  // NLLB-200 has exactly one Quechua code, quy_Latn (FLORES-200 "Ayacucho Quechua"); quz_Latn does not
+  // exist in the model. Used for Puno Quechua as the closest available variant.
   SRC_LANG: "quy_Latn",
   TGT_LANG: "eng_Latn",
 
