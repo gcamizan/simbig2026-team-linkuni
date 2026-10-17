@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 3 — Review</title>
+<link rel="stylesheet" href="review.css">
+</head>
+<body>
+<header>
+  <h1>Review and approve</h1>
+  <p class="sub">Step 3 &middot; correct the Quechua text for each clip, choose a category and approve. Approving translates the corrected text to English.</p>
+  <p id="mockNote" class="note" hidden>Mock mode: translations are simulated; nothing is sent to a translation service.</p>
+  <p id="pageError" class="note" hidden></p>
+</header>
+
+<section id="actions">
+  <a href="../asr/">&larr; Back to ASR</a>
+  <label>Reviewer <input id="reviewer" type="text" placeholder="your name" autocomplete="off"></label>
+  <button id="importBtn" type="button">Load transcripts.json…</button>
+  <input id="importFile" type="file" accept="application/json,.json" hidden>
+  <button id="downloadBtn" type="button" disabled>Save phrasebook.json</button>
+  <a id="siteLink" href="../phrasebook/" hidden>Continue to the phrasebook &rarr;</a>
+  <span id="summary" class="tally"></span>
+</section>
+
+<table>
+  <thead>
+    <tr><th>Clip</th><th>ASR transcript</th><th>Corrected Quechua</th><th>Category</th><th>English / action</th></tr>
+  </thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<script src="../shared/config.js"></script>
+<script src="../shared/runpod-client.js"></script>
+<script src="review.js"></script>
+</body>
+</html>

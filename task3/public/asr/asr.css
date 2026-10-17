@@ -29,15 +29,14 @@ header .note {
 #selectedPanel h2 { font-size: 15px; margin: 0 0 4px; }
 .tally { font-size: 12px; color: #374151; margin: 0 0 8px; }
 #selectedList { margin: 0 0 10px; padding-left: 20px; font-size: 13px; max-height: 160px; overflow-y: auto; }
-#exportBtn {
+#sendBtn {
   background: #2563eb; color: #fff; border: none; border-radius: 6px;
   padding: 8px 14px; font-size: 13.5px; cursor: pointer;
 }
-#exportBtn:disabled { background: #9ca3af; cursor: not-allowed; }
+#sendBtn:disabled { background: #9ca3af; cursor: not-allowed; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
 th { color: #6b7280; font-weight: 600; font-size: 11.5px; text-transform: uppercase; }
-td audio { width: 200px; height: 32px; }
 .prompt { display: block; color: #6b7280; font-size: 11.5px; margin-top: 2px; }
 .source { color: #6b7280; font-size: 11.5px; }
 #loadMoreWrap { text-align: center; margin: 14px 0; }
@@ -45,3 +44,9 @@ td audio { width: 200px; height: 32px; }
   background: #fff; border: 1px solid #d1d5db; border-radius: 6px;
   padding: 7px 14px; font-size: 13px; cursor: pointer;
 }
+#asrStatus { font-size: 13px; margin: 12px 0; color: #374151; }
+.err { color: #b91c1c; }
+button { border: 1px solid #d1d5db; background: #fff; border-radius: 6px; padding: 7px 14px; font-size: 13px; cursor: pointer; }
+button:disabled { color: #9ca3af; cursor: not-allowed; }
+#runBtn { background: #2563eb; color: #fff; border: none; }
+#runBtn:disabled { background: #9ca3af; }

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 3 — ASR Transcription</title>
+<link rel="stylesheet" href="asr.css">
+</head>
+<body>
+<header>
+  <h1>ASR transcription</h1>
+  <p class="sub">Step 2 &middot; the selected clips are sent to the Quechua ASR model in one batch; transcripts appear when the job finishes.</p>
+  <p id="mockNote" class="note" hidden>Mock mode: no data is sent to Runpod; transcripts are simulated.</p>
+  <p id="pageError" class="note" hidden></p>
+</header>
+
+<section id="actions">
+  <a href="../">&larr; Back to selection</a>
+  <button id="runBtn" disabled>Run ASR</button>
+  <button id="downloadBtn" disabled>Save transcripts.json</button>
+  <a id="reviewLink" href="../review/" hidden>Continue to review &rarr;</a>
+</section>
+<p id="asrStatus"></p>
+
+<table>
+  <thead>
+    <tr><th>Clip</th><th>Reference text</th><th>ASR transcript</th></tr>
+  </thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<script src="../shared/config.js"></script>
+<script src="../shared/runpod-client.js"></script>
+<script src="asr.js"></script>
+</body>
+</html>

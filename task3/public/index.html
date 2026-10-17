@@ -1,11 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
-  </head>
-  <body>
-    <h1>Hello world</h1>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 3 — Phrasebook Selection</title>
+<link rel="stylesheet" href="select.css">
+</head>
+<body>
+<header>
+  <h1>Select audio samples</h1>
+  <p class="sub">Step 1 &middot; choose up to <span id="maxSel">10</span> validated Puno Quechua clips (10 s or less) to send to the ASR model.</p>
+  <p id="mockNote" class="note" hidden>Mock mode: no data is read from or sent to Runpod.</p>
+  <p id="loadError" class="note" hidden></p>
+</header>
+
+<section id="controls">
+  <input id="search" type="search" placeholder="Search text…" autocomplete="off">
+  <label><input type="checkbox" id="selectedOnly"> Selected only</label>
+  <span id="counts"></span>
+</section>
+
+<section id="selectedPanel">
+  <h2>Selected (<span id="selectedCount">0</span> / <span id="selectedMax">10</span>)</h2>
+  <ol id="selectedList"></ol>
+  <button id="sendBtn" disabled>Send to ASR &rarr;</button>
+  <button id="exportBtn" type="button" disabled>Save selection.json</button>
+  <button id="importBtn" type="button">Load selection.json…</button>
+  <input id="importFile" type="file" accept="application/json,.json" hidden>
+  <span class="tally">Your picks are also remembered in this browser.</span>
+</section>
+
+<section id="browsePanel">
+  <table id="corpusTable">
+    <thead>
+      <tr><th></th><th>Text</th><th>Duration</th><th>Category (optional)</th></tr>
+    </thead>
+    <tbody id="corpusBody"></tbody>
+  </table>
+  <p id="loadMoreWrap"><button id="loadMoreBtn">Show 100 more</button></p>
+</section>
+
+<script src="shared/config.js"></script>
+<script src="shared/runpod-client.js"></script>
+<script src="select.js"></script>
+</body>
 </html>
