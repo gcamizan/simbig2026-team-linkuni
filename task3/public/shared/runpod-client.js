@@ -22,9 +22,19 @@ window.RunpodClient = (function () {
     return res.json();
   }
 
-  // The list endpoint may return only {audio}; every other attribute is optional.
-  // The agreed scope is validated clips of <= 10 s, so enforce it here too in case the
-  // server returns more.
+  // Edson's /samples answers {count, files: ["<name>.mp3", ...]}: filenames only, no
+  // transcription, duration or status. Also accepted: a plain array of names or of records
+  // [{audio, transcription?, prompt?, duration_ms?, status?}]. Every attribute except the
+  // filename is optional.
+  function sampleRows(body) {
+    const rows = Array.isArray(body) ? body : body.files;
+    if (!Array.isArray(rows)) throw new Error("unexpected /samples response (no 'files' list)");
+    return rows.map((r) => (typeof r === "string" ? { audio: r } : r));
+  }
+
+  // The agreed scope is validated clips of <= 10 s. It can only be enforced here when the
+  // server sends status/duration; with filenames only, every clip passes (the page warns).
+  // TODO(EDSON): ask for a server-side filter (validated, <= 10 s) or a list of that scope.
   function normalizeSample(r) {
     const file = r.audio || r.audio_filename;
     return {
@@ -33,12 +43,12 @@ window.RunpodClient = (function () {
       reference_text: r.transcription ?? r.reference_text ?? "",
       prompt: r.prompt || "",
       duration_ms: r.duration_ms ?? null,
-      status: r.status || "validated",
+      status: r.status || null,
     };
   }
 
   function inScope(e) {
-    return !!e.audio_filename && e.status === "validated" &&
+    return !!e.audio_filename && (e.status === null || e.status === "validated") &&
       (e.duration_ms === null || e.duration_ms <= MAX_DURATION_MS);
   }
 
@@ -53,9 +63,9 @@ window.RunpodClient = (function () {
       }
       if (!rows) throw new Error("no mock sample file found");
     } else {
-      rows = await request(C.SAMPLES_PATH);
+      rows = await request(C.SAMPLES_PATH); // {count, files: [...]}
     }
-    return rows.map(normalizeSample).filter(inScope);
+    return sampleRows(rows).map(normalizeSample).filter(inScope);
   }
 
   // --- ASR batch (async) ---------------------------------------------------------------

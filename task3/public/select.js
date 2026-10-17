@@ -61,7 +61,7 @@
       tdPick.appendChild(cb);
 
       const tdText = document.createElement("td");
-      tdText.textContent = entry.reference_text || "(no transcription)";
+      tdText.textContent = entry.reference_text || "(no text provided by the server)";
       const meta = document.createElement("span");
       meta.className = "prompt";
       meta.textContent = (entry.prompt ? "Q: " + entry.prompt + " · " : "") + entry.audio_filename;
@@ -205,6 +205,13 @@
       ALL_ENTRIES = await RunpodClient.listSamples();
     } catch (err) {
       showError(`Could not load the audio sample list (${err.message}).`);
+    }
+    // TODO(EDSON): remove once the server filters the list to validated clips of <= 10 s.
+    if (ALL_ENTRIES.length && ALL_ENTRIES.every((e) => e.duration_ms === null && !e.reference_text)) {
+      showError(
+        `The server sent filenames only: showing all ${ALL_ENTRIES.length.toLocaleString()} clips. ` +
+        "The validated, 10 s or less scope and the clip texts are not available yet."
+      );
     }
     try {
       if (ALL_ENTRIES.length) restore(JSON.parse(localStorage.getItem(KEY) || "[]"));

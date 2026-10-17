@@ -13,9 +13,10 @@ window.TASK3_CONFIG = {
   // CORS allows https://simbig2026-team-linkuni.xcr33d.workers.dev and http://127.0.0.1:8000.
   RUNPOD_BASE_URL: "https://7ftpybloeqd9t0-8000.proxy.runpod.net",
 
-  // Paths confirmed by Edson. TODO(EDSON): response shapes are still unverified (his server
-  // returned 502 when first tried); the client accepts the shapes below plus close variants.
-  SAMPLES_PATH: "/samples",                // GET  -> [{audio, transcription?, prompt?, duration_ms?, status?}, ...]
+  // Paths confirmed by Edson. /samples shape confirmed (filenames only, all 7,306 clips, no
+  // validated/duration filter). TODO(EDSON): the /asr_batch response shape is still unverified;
+  // the client accepts the shapes below plus close variants.
+  SAMPLES_PATH: "/samples",                // GET  -> {count, files: ["<name>.mp3", ...]} (confirmed by Edson 2026-10-17)
   ASR_SUBMIT_PATH: "/asr_batch",           // POST {audios: [filename, ...]} (max 10) -> {job_id} or the results directly
   ASR_JOB_PATH: "/asr_batch/{job_id}",     // GET  -> {status: queued|running|done|failed, results: [{audio, transcript, error}]}
 
