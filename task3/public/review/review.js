@@ -1,10 +1,12 @@
 // Phase: review tool.
 // Loads the ASR results (localStorage key TASK3_CONFIG.STORAGE.ASR, or a transcripts.json file),
-// shows one row per clip with one editable field (corrected Quechua) and a category, and on
-// Approve calls RunpodClient.translate (the translation proxy) and stores the entry as
+// shows one row per clip with an editable corrected-Quechua field, a category and an editable
+// English field. Translate calls RunpodClient.translate (the translation proxy) to fill the
+// English; Save entry stores whatever English is in the box as
 //   {audio_filename, quechua_text, english_translation, category, reviewed_by}
 // in localStorage (STORAGE.PHRASEBOOK). The list can be downloaded as phrasebook.json.
-// Re-approving an entry replaces it. Clips whose ASR failed can still be approved by typing the text.
+// Saving again replaces the entry. Clips whose ASR failed, or whose translation failed, can still
+// be saved by typing the text by hand.
 
 (function () {
   const CONFIG = window.TASK3_CONFIG;
@@ -74,38 +76,55 @@
       tdCat.appendChild(sel);
 
       const tdAct = document.createElement("td");
-      const english = document.createElement("div");
-      english.className = "ok";
-      english.textContent = done ? done.english_translation : "";
+      const en = document.createElement("textarea");
+      en.placeholder = "English translation (click Translate, then edit if needed)";
+      en.value = done ? done.english_translation : "";
       const msg = document.createElement("div");
       msg.className = "err";
-      const btn = document.createElement("button");
-      btn.className = "approve";
-      btn.textContent = done ? "Re-approve" : "Approve";
-      btn.addEventListener("click", async () => {
-        const text = ta.value.trim();
-        if (!text) { msg.textContent = "Enter the Quechua text first."; return; }
-        if (!sel.value) { msg.textContent = "Choose a category first."; return; }
-        if (!reviewerEl.value.trim()) { msg.textContent = "Enter your name as reviewer (top of page)."; return; }
-        btn.disabled = true;
+      const translateBtn = document.createElement("button");
+      translateBtn.textContent = "Translate";
+      const saveBtn = document.createElement("button");
+      saveBtn.className = "approve";
+      saveBtn.textContent = done ? "Update entry" : "Save entry";
+      saveBtn.disabled = !en.value.trim();
+      en.addEventListener("input", () => { saveBtn.disabled = !en.value.trim(); });
+
+      function missingField() {
+        if (!ta.value.trim()) return "Enter the Quechua text first.";
+        if (!sel.value) return "Choose a category first.";
+        if (!reviewerEl.value.trim()) return "Enter your name as reviewer (top of page).";
+        return "";
+      }
+
+      translateBtn.addEventListener("click", async () => {
+        const problem = missingField();
+        if (problem) { msg.textContent = problem; return; }
+        translateBtn.disabled = true;
         msg.textContent = "Translating…";
         try {
-          const translation = await RunpodClient.translate(text);
-          phrasebook.set(clip.audio_filename, {
-            audio_filename: clip.audio_filename,
-            quechua_text: text,
-            english_translation: translation,
-            category: sel.value,
-            reviewed_by: reviewerEl.value.trim(),
-          });
-          persist();
-          render();
+          en.value = await RunpodClient.translate(ta.value.trim());
+          msg.textContent = "";
+          saveBtn.disabled = !en.value.trim();
         } catch (err) {
-          msg.textContent = "Translation failed: " + err.message; // nothing is written on failure
-          btn.disabled = false;
+          msg.textContent = "Translation failed: " + err.message; // you can still type the English by hand
         }
+        translateBtn.disabled = false;
       });
-      tdAct.append(english, msg, btn);
+
+      saveBtn.addEventListener("click", () => {
+        const problem = missingField() || (en.value.trim() ? "" : "Enter or generate the English translation first.");
+        if (problem) { msg.textContent = problem; return; }
+        phrasebook.set(clip.audio_filename, {
+          audio_filename: clip.audio_filename,
+          quechua_text: ta.value.trim(),
+          english_translation: en.value.trim(),
+          category: sel.value,
+          reviewed_by: reviewerEl.value.trim(),
+        });
+        persist();
+        render();
+      });
+      tdAct.append(en, msg, translateBtn, saveBtn);
 
       tr.append(tdClip, tdAsr, tdText, tdCat, tdAct);
       rowsEl.appendChild(tr);
