@@ -35,6 +35,13 @@ window.TASK3_CONFIG = {
   // chooses a token or header scheme, set it here, e.g. {name: "X-Demo-Token", value: "..."}.
   AUTH_HEADER: null,
 
+  // Phrasebook page. PHRASEBOOK_URL is the published copy of data/reviewed/phrasebook.json (the
+  // curated entries); until it exists the page falls back to the entries saved in this browser.
+  PHRASEBOOK_URL: "/phrasebook/phrasebook.json",
+  // TODO(EDSON): clip playback needs an audio source (base URL + filename). Edson's API serves no
+  // audio yet; leave null to hide the players. Example once available: "https://<host>/audio/".
+  AUDIO_BASE_URL: null,
+
   // Product rule from the flow: the user picks at most 10 clips per run.
   MAX_SELECTION: 10,
   POLL_INTERVAL_MS: 2000,

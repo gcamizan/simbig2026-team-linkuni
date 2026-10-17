@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Puno Quechua Phrasebook</title>
+<link rel="stylesheet" href="phrasebook.css">
+</head>
+<body>
+<header>
+  <h1>Puno Quechua tourism phrasebook</h1>
+  <p class="sub">Phrases reviewed by curators, grouped by situation, with English translations.</p>
+  <p id="pageNote" class="note" hidden></p>
+</header>
+
+<section id="controls">
+  <input id="search" type="search" placeholder="Search Quechua or English…" autocomplete="off">
+  <button id="importBtn" type="button">Load phrasebook.json…</button>
+  <input id="importFile" type="file" accept="application/json,.json" hidden>
+  <span id="counts"></span>
+  <a href="../">Start a new selection</a>
+</section>
+
+<main id="entries"></main>
+
+<footer id="attribution">
+  <h2>Data and licence notes</h2>
+  <ul>
+    <li><strong>Speech data:</strong> Mozilla Common Voice Spontaneous Speech 5.0, Puno Quechua, from the
+      <a href="https://mozilladatacollective.com/">Mozilla Data Collective</a>, released under CC0-1.0.
+      Speakers are not identified, and the dataset is not re-hosted here.</li>
+    <li><strong>Transcripts:</strong> produced by an ASR model fine-tuned for Puno Quechua in this project (Task 1),
+      then corrected by a human reviewer.</li>
+    <li><strong>English translations:</strong> generated with Meta's NLLB-200 (distilled 600M; licence CC-BY-NC 4.0, so
+      this resource is non-commercial) using the Southern Quechua code <code>quy_Latn</code>, then edited by the
+      reviewer. NLLB does not model the Puno variety exactly, so translations may contain errors.</li>
+    <li><strong>Project:</strong> SIMBig 2026 shared task, team LinkUni. Educational resource.</li>
+  </ul>
+</footer>
+
+<script src="../shared/config.js"></script>
+<script src="phrasebook.js"></script>
+</body>
+</html>
